@@ -33,6 +33,10 @@
 \RequirePackage[hmargin=1.25cm,vmargin=1.25cm,twocolumn,columnsep=1.25cm]{geometry}
 \RequirePackage{bookman,etoolbox,hyperref,needspace,pifont,tabularx,xcolor}
 
+
+\let\saveditemize=\itemize%
+\let\savedenditemize=\enditemize%
+
 % Capitalize words of at least a minimum length (default to 3 chars).
 % The text is capitalized before being expanded.
 %
@@ -110,7 +114,7 @@
 % \personal[optional: web site without scheme (no http:// prefix)]
 %          {address}{phone number}{email}
 % ]|
-\newcommand\personal[4][]{%
+\newcommand\personal[5][]{%
     \newcommand\SYMBOL[1]{\raisebox{-2pt}{\Large\ding{##1}}}%
     \needspace{0.5\textheight}%
     \newdimen\boxwidth%
@@ -118,8 +122,9 @@
     \colorbox[HTML]{F5DD9D}{%
     \begin{tabularx}{\boxwidth}{c|X}
     \SYMBOL{45} & {#2}\smallskip\\
-    \SYMBOL{37} & {#3}\smallskip\\
-    \SYMBOL{41} & \href{mailto:#4}{#4}
+    \SYMBOL{45} & {#3}\smallskip\\
+    \SYMBOL{37} & {#4}\smallskip\\
+    \SYMBOL{41} & \href{mailto:#4}{#5}
     \ifstrempty{#1}{}{\smallskip\\ \SYMBOL{218} & \href{http://#1}{#1}}
     \end{tabularx}}}
 
@@ -170,6 +175,20 @@
 	\textsc{##1} & {\raggedright ##2\medskip\\}\\[\unbaseline]}
     \tabularx{\linewidth}{rX}}
     {\endtabularx}
+
+
+
+\newenvironment{assignments}
+{
+    \begingroup                 % Start of formatting properties
+    \leftskip 0.1in             % indentation for lines except first line
+    \textbf{Aufgabengebiet} \\\\
+    \renewcommand\item[1]{$\bullet$ ##1 \\ }
+}{
+    % restore all formatting that we changed since begingroup
+    % (e.g. leftskip, parindent)
+    \endgroup
+}
 
 \KOMAoption{bibliography}{totocnumbered}%Avoid dealing with
 %starred sections
